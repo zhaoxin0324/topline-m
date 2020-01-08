@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <router-view/>
-    <!-- <i class="iconfont icon-shouji"></i> -->
   </div>
 </template>
 <script>
