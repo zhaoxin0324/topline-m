@@ -6,7 +6,8 @@ import {
   NavBar,
   Field,
   Icon,
-  Toast
+  Toast, // 登录中提示
+  CountDown // 倒计时组件
 } from 'vant'
 
 // 注册
@@ -17,3 +18,4 @@ Vue.use(Button)
   .use(Field)
   .use(Icon)
   .use(Toast)
+  .use(CountDown)

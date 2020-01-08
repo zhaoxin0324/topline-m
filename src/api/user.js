@@ -7,3 +7,11 @@ export const login = data => {
     data
   })
 }
+// 发送验证码
+
+export const getmsCode = data => {
+  request({
+    method: 'GET',
+    url: `/app/v1_0/sms/codes/${data}` // 参数为电话号
+  })
+}
