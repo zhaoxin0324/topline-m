@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div>黄淮</div>
     <router-view/>
+    <!-- <i class="iconfont icon-shouji"></i> -->
   </div>
 </template>
 <script>
