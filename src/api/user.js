@@ -1,7 +1,7 @@
 import request from '@/utils/request.js'
 
 export const login = data => {
-  request({
+  return request({
     url: '/app/v1_0/authorizations',
     method: 'post',
     data
@@ -10,7 +10,7 @@ export const login = data => {
 // 发送验证码
 
 export const getmsCode = data => {
-  request({
+  return request({
     method: 'GET',
     url: `/app/v1_0/sms/codes/${data}` // 参数为电话号
   })
