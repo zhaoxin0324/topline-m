@@ -9,14 +9,14 @@
          rules  配置校验规则
          v-slot="{ errors }" 获取校验失败的错误提示消息
     -->
-    <ValidationObserver>
-      <ValidationProvider name='手机号' rules="required" v-slot="{ errors }">
+    <ValidationObserver ref="myForm">
+      <ValidationProvider name='手机号' rules="required|mobile" immediate>
         <van-field v-model="login.mobile" clearable label="手机号" placeholder="请输入手机号">
           <van-icon class-prefix="icon" name="shouji" slot="left-icon" />
         </van-field>
-        <span>{{ errors[0] }}</span>
       </ValidationProvider>
-        <van-field v-model="login.code" type="password" label="验证码" placeholder="请输入验证码">
+      <ValidationProvider name='验证码' rules="required|code" immediate>
+        <van-field v-model="login.code"  label="验证码" placeholder="请输入验证码">
           <van-button
             slot="button"
             size="small"
@@ -35,6 +35,7 @@
             @finish="showcountDown=false"
           />
         </van-field>
+        </ValidationProvider>
     </ValidationObserver>
     <div class="sub_button">
       <van-button type="info" class="mes_btn" @click="userLogin">登录</van-button>
@@ -44,6 +45,7 @@
 
 <script>
 import { login, getmsCode } from '@/api/user.js'
+import { validate } from 'vee-validate'
 export default {
   data () {
     return {
@@ -57,6 +59,22 @@ export default {
   methods: {
     // 登录
     async userLogin () {
+      // 表单验证
+      let success = await this.$refs.myForm.validate()
+      if (!success) {
+        // 手动表单验证失败
+        // 获取失败的错误提示  通过ref获取表单  表单的error属性中含有信息
+        // 直接获取 表没有错误信息 必须给每一个 ValidationProvider 配置 immediate 初始验证
+        let err = this.$refs.myForm.errors
+        // console.log('失败', err)
+        for (let key in err) {
+          if (err[key][0]) {
+            this.$toast(err[key][0])
+            return
+          }
+        }
+      }
+      // 验证成功
       // 开启登录loading
       this.$toast.loading({
         duration: 0, // 持续展示toast
@@ -66,18 +84,27 @@ export default {
       try {
         await login(this.login)
         // 成功加载成功toast
-
-        debugger
         this.$toast.success('登录成功')
       } catch (error) {
-        this.$toast.fail('登录失败')
+        this.$toast.fail('手机号或验证码不正确')
       }
     },
     // 发送验证码
     async sendMessage () {
+      // 验证指定数据字段
       try {
         // 获取手机号
         let { mobile } = this.login
+        // 发送验证码之前进行验证 验证手机号是否有效
+        let result = await validate(mobile, 'required|mobile', {
+          name: '手机号'
+        })
+        console.log(result)
+
+        if (!result.valid) {
+          this.$toast(result.errors[0])
+          return
+        }
         // 显示倒计时
         this.showcountDown = !this.showcountDown
         await getmsCode(mobile)
