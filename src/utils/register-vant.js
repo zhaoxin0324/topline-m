@@ -7,7 +7,9 @@ import {
   Field,
   Icon,
   Toast, // 登录中提示
-  CountDown // 倒计时组件
+  CountDown, // 倒计时组件
+  Tabbar,
+  TabbarItem
 } from 'vant'
 
 // 注册
@@ -19,3 +21,5 @@ Vue.use(Button)
   .use(Icon)
   .use(Toast)
   .use(CountDown)
+  .use(Tabbar)
+  .use(TabbarItem)

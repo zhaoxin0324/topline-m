@@ -28,7 +28,7 @@
           <van-icon class-prefix="icon" name="suo" slot="left-icon" />
           <!-- 引倒计时组件 -->
           <van-count-down
-            :time="60*1000"
+            :time="60 * 1000"
             format="ss s"
             slot="button"
             v-if="this.showcountDown"
@@ -50,8 +50,8 @@ export default {
   data () {
     return {
       login: {
-        mobile: null,
-        code: null
+        mobile: '',
+        code: ''
       },
       showcountDown: false
     }
@@ -66,10 +66,13 @@ export default {
         // 获取失败的错误提示  通过ref获取表单  表单的error属性中含有信息
         // 直接获取 表没有错误信息 必须给每一个 ValidationProvider 配置 immediate 初始验证
         let err = this.$refs.myForm.errors
-        // console.log('失败', err)
+        console.log('失败', err)
         for (let key in err) {
-          if (err[key][0]) {
-            this.$toast(err[key][0])
+          let item = err[key]
+          if (item[0]) {
+            // debugger
+            console.log(item[0])
+            this.$toast(item[0])
             return
           }
         }
@@ -101,7 +104,7 @@ export default {
         let result = await validate(mobile, 'required|mobile', {
           name: '手机号'
         })
-        console.log(result)
+        // console.log(result)
 
         if (!result.valid) {
           this.$toast(result.errors[0])
