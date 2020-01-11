@@ -13,7 +13,8 @@ export default new Vuex.Store({
     setToken (state, data) {
       // 为了避免页面刷新数据丢失，我们这里使用本地存储进行 **持久化**
       // window.console.log(state.user)
-      setItem(USER_KEY, data)
+      state.user = data
+      setItem(USER_KEY, state.user)
     }
   },
   actions: {

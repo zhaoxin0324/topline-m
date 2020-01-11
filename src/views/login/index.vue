@@ -87,9 +87,10 @@ export default {
       try {
         let res = await login(this.login)
         // 成功加载成功toast
-        console.log(res.data)
+        // console.log(res.data)
         this.$store.commit('setToken', res.data.data)
         this.$toast.success('登录成功')
+        this.$router.push('/')
       } catch (error) {
         this.$toast.fail('手机号或验证码不正确')
       }

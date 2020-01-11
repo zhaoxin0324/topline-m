@@ -15,3 +15,10 @@ export const getmsCode = data => {
     url: `/app/v1_0/sms/codes/${data}` // 参数为电话号
   })
 }
+// 获取当前登录用户信息
+export const getUserInfo = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/user'
+  })
+}
