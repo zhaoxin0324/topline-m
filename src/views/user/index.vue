@@ -97,7 +97,7 @@ export default {
       if (data.data.results.length) {
         this.params.page++
       } else {
-        this.finished = true
+        this.finished = true // 没有数据 停止加载
       }
     },
     // 获取指定用户信息
