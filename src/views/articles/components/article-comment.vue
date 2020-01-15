@@ -11,11 +11,11 @@
           style="margin: 0 10px 0 -15px;"
           src="https://img.yzcdn.cn/vant/cat.jpeg"
         />
-        <span style="color: #466b9d;" slot="title">hello</span>
+        <span style="color: #466b9d;" slot="title">{{ item.aut_name  }}</span>
         <div slot="label">
-          <p style="color: #363636;">我出去跟别人说我的是。。。</p>
+          <p style="color: #363636;">{{ item.content }}</p>
           <p>
-            <span style="margin-right: 10px;">3天前</span>
+            <span style="margin-right: 10px;">{{ item.pubdate | relativeTime }}</span>
             <van-button size="mini" type="default">回复</van-button>
           </p>
         </div>

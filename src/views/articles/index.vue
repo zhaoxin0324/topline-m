@@ -67,7 +67,8 @@
     <!-- /加载失败提示 -->
     <!-- 文章评论 -->
     <article-comment
-    :article-id='articleId'></article-comment>
+    :article-id='articleId'>
+    </article-comment>
     <!-- 文章评论 -->
     <!-- 底部区域 -->
     <div class="footer">
@@ -76,7 +77,7 @@
         type="default"
         round
         size="small"
-        @click="is"
+        @click="isPostShow=true"
       >写评论</van-button>
       <van-icon
         class="comment-icon"
@@ -99,14 +100,16 @@
     <!-- 弹层 -->
     <van-popup
     v-model="isPostShow"
-    position="bottom">
-
+    position="bottom"
+    :style="{ height: '20%' }">
+      <post-comment></post-comment>
     </van-popup>
   </div>
 </template>
 
 <script>
 import articleComment from './components/article-comment'
+import postComment from './components/post-comment'
 import { addFollow, deleteFollow } from '@/api/user'
 import {
   getArticleById,
@@ -119,7 +122,8 @@ import {
 export default {
   name: 'ArticlePage',
   components: {
-    articleComment
+    articleComment,
+    postComment
   },
   props: {
     articleId: {
@@ -181,7 +185,7 @@ export default {
         }
       } catch (error) {
         console.log(error)
-        // this.$toast.fail('操作失败')
+        this.$toast.fail('操作失败')
       }
     },
     async loadArticle () {
