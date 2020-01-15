@@ -90,7 +90,7 @@ export default {
 
       // 2. 把数据添加到列表中
       this.list.push(...data.data.results)
-      console.log(this.list)
+      // console.log(this.list)
       // 3. 加载状态结束
       this.loading = false
       // 4. 判断数据是否全部加载完毕

@@ -54,6 +54,7 @@ import { getSuggestions } from '@/api/search.js'
 import { debounce } from 'lodash' // 函数防抖
 import { getItem, setItem } from '@/utils/storage'
 export default {
+  name: 'SearchResult',
   components: {
     SearchResult
   },

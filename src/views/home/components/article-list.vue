@@ -5,7 +5,7 @@
       :finished="finished"
       finished-text="没有更多了"
       @load="onLoad">
-        <van-cell v-for="(item,index) in list" :key="index" :title="item.title" />
+        <van-cell v-for="(item,index) in list" :key="index" :title="item.title" @click="$router.push(`/article/${item.art_id}`)"/>
       </van-list>
     </div>
   </van-pull-refresh>
