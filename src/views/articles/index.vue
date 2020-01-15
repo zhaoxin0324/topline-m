@@ -37,6 +37,7 @@
           </div>
         </div>
         <van-button
+          v-if="!$store.state.user || article.aut_id!==$store.state.user.id"
           class="follow-btn"
           :type="article.is_followed? 'default' : 'info'"
           size="small"
@@ -64,7 +65,10 @@
       >点击重试</van-button>
     </div>
     <!-- /加载失败提示 -->
-
+    <!-- 文章评论 -->
+    <article-comment
+    :article-id='articleId'></article-comment>
+    <!-- 文章评论 -->
     <!-- 底部区域 -->
     <div class="footer">
       <van-button
@@ -72,6 +76,7 @@
         type="default"
         round
         size="small"
+        @click="is"
       >写评论</van-button>
       <van-icon
         class="comment-icon"
@@ -91,10 +96,17 @@
       <van-icon class="share-icon" name="share" />
     </div>
     <!-- /底部区域 -->
+    <!-- 弹层 -->
+    <van-popup
+    v-model="isPostShow"
+    position="bottom">
+
+    </van-popup>
   </div>
 </template>
 
 <script>
+import articleComment from './components/article-comment'
 import { addFollow, deleteFollow } from '@/api/user'
 import {
   getArticleById,
@@ -106,7 +118,9 @@ import {
 
 export default {
   name: 'ArticlePage',
-  components: {},
+  components: {
+    articleComment
+  },
   props: {
     articleId: {
       type: String,
@@ -116,7 +130,8 @@ export default {
   data () {
     return {
       article: {}, // 文章详情
-      loading: true // 文章加载loading状态
+      loading: true, // 文章加载loading状态
+      isPostShow: false
     }
   },
   computed: {},
