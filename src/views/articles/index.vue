@@ -33,7 +33,7 @@
           />
           <div class="text">
             <p class="name">{{ article.aut_name }}</p>
-            <p class="time">{{ article.pubdate }}</p>
+            <p class="time">{{ article.pubdate | relativeTime }}</p>
           </div>
         </div>
         <van-button
@@ -143,7 +143,8 @@ export default {
         }
         this.article.is_followed = !this.article.is_followed
       } catch (error) {
-        console.log('加载失败', error)
+        // console.log('加载失败', error)
+        this.$toast.fail('加载失败')
       }
     },
     // 点赞或取消点赞
