@@ -57,6 +57,8 @@ export default {
       console.log(data)
       // 2.将数据结构 渲染
       const { results } = data.data
+      this.totalCount = data.data.total_count
+      this.$emit('getTotal', this.totalCount)
       this.list.push(...results)
       console.log(this.list)
       // 3.关闭加载loading

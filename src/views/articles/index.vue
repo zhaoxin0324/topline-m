@@ -67,7 +67,8 @@
     <!-- /加载失败提示 -->
     <!-- 文章评论 -->
     <article-comment
-    :article-id='articleId'>
+    :article-id='articleId'
+    @getTotal='getTotalCount'>
     </article-comment>
     <!-- 文章评论 -->
     <!-- 底部区域 -->
@@ -82,7 +83,7 @@
       <van-icon
         class="comment-icon"
         name="comment-o"
-        info="9"
+        :info="totalCount"
       />
       <van-icon
         color="orange"
@@ -99,10 +100,11 @@
     <!-- /底部区域 -->
     <!-- 弹层 -->
     <van-popup
-    v-model="isPostShow"
-    position="bottom"
-    :style="{ height: '20%' }">
-      <post-comment></post-comment>
+      v-model="isPostShow"
+      position="bottom"
+      :style="{ height: '20%' }">
+      <post-comment
+      :articleId='articleId'></post-comment>
     </van-popup>
   </div>
 </template>
@@ -135,7 +137,8 @@ export default {
     return {
       article: {}, // 文章详情
       loading: true, // 文章加载loading状态
-      isPostShow: false
+      isPostShow: false,
+      totalCount: 0
     }
   },
   computed: {},
@@ -145,6 +148,10 @@ export default {
   },
   mounted () {},
   methods: {
+    // 获取总评论数
+    getTotalCount (val) {
+      this.totalCount = val
+    },
     // 关注或取消关注
     async onFollow () {
       this.$toast.loading({

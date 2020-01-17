@@ -12,7 +12,7 @@
           />
           <div class="title">{{ userMessage.name }}</div>
         </div>
-        <van-button round size="mini">编辑资料</van-button>
+        <van-button round size="mini" @click="$router.push('/user/profile')">编辑资料</van-button>
       </div>
       <van-grid class="data-info" :border="false">
         <van-grid-item>
@@ -95,7 +95,7 @@ export default {
     // 获取用户信息
     async getUserMessage () {
       let res = await getUserInfo()
-      console.log(res)
+      // console.log(res)
       this.userMessage = res.data.data
     },
     // 退出登录

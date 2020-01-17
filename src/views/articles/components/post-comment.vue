@@ -1,7 +1,7 @@
 <template>
   <div class="post-comment">
     <van-field
-      v-model="message"
+      v-model="inputComment"
       rows="2"
       autosize
       type="textarea"
@@ -11,15 +11,35 @@
     />
     <van-button
     size="small"
-    class="comment-btn">发布</van-button>
+    class="comment-btn"
+    @click="onAddComment">发布</van-button>
   </div>
 </template>
 
 <script>
+import { addComment } from '@/api/comment'
 export default {
+  props: {
+    articleId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
-      message: ''
+      inputComment: '' // 绑定输入框输入的数据
+    }
+  },
+  methods: {
+    async onAddComment () {
+      // 处理输入内容
+      if (!this.inputComment.trim()) {
+        return
+      }
+      await addComment({
+        target: this.articleId,
+        content: this.inputComment.trim()
+      })
     }
   }
 }
