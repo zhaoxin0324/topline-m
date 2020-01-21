@@ -54,7 +54,7 @@ export default {
         offset: this.offset, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
         limit: this.limit
       })
-      console.log(data)
+      // console.log(data)
       // 2.将数据结构 渲染
       const { results } = data.data
       this.totalCount = data.data.total_count

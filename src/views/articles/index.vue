@@ -67,6 +67,7 @@
     <!-- /加载失败提示 -->
     <!-- 文章评论 -->
     <article-comment
+    ref="article-comment"
     :article-id='articleId'
     @getTotal='getTotalCount'>
     </article-comment>
@@ -103,13 +104,18 @@
       v-model="isPostShow"
       position="bottom"
       :style="{ height: '20%' }">
+      <!-- v-model相当于
+      :value="postMessage"
+      @input="postMessage=事件参数"
+      本质还是父子通信 -->
       <post-comment
-      :articleId='articleId'></post-comment>
+      v-model="postMessage" @click-post="onPost"></post-comment>
     </van-popup>
   </div>
 </template>
 
 <script>
+import { addComment } from '@/api/comment'
 import articleComment from './components/article-comment'
 import postComment from './components/post-comment'
 import { addFollow, deleteFollow } from '@/api/user'
@@ -138,7 +144,8 @@ export default {
       article: {}, // 文章详情
       loading: true, // 文章加载loading状态
       isPostShow: false,
-      totalCount: 0
+      totalCount: 0,
+      postMessage: ''
     }
   },
   computed: {},
@@ -148,6 +155,32 @@ export default {
   },
   mounted () {},
   methods: {
+    // 发布评论
+    async  onPost () {
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: '发布中...', // 展示信息
+        forbidClick: true // 是否禁止背景点击
+      })
+      try {
+      // 处理输入内容
+        const { data } = await addComment({
+          target: this.articleId,
+          content: this.postMessage
+        })
+        // console.log(data)
+        // 清空文本框
+        this.postMessage = ''
+        // 关闭弹层
+        this.isPostShow = false
+        // 将数据添加到列表顶部 $refs 可以获取到子组件
+        this.$refs['article-comment'].list.unshift(data.data.new_obj)
+        this.totalCount++
+        this.$toast.success('评论成功')
+      } catch (error) {
+        this.$toast.fail('评论失败')
+      }
+    },
     // 获取总评论数
     getTotalCount (val) {
       this.totalCount = val
