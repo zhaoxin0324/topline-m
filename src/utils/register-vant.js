@@ -21,7 +21,8 @@ import {
   Popup,
   Search,
   Loading,
-  ActionSheet
+  ActionSheet,
+  DatetimePicker
 } from 'vant'
 
 // 注册
@@ -47,3 +48,4 @@ Vue.use(Button)
   .use(Search)
   .use(Loading)
   .use(ActionSheet)
+  .use(DatetimePicker)

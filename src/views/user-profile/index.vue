@@ -19,7 +19,9 @@
       <van-cell is-link title="性别"
       :value="user.gender === 0? '女': '男'"
       @click="isEditGenderShow= true"/>
-      <van-cell is-link title="生日" :value="user.birthday" />
+      <van-cell is-link title="生日"
+      :value="user.birthday"
+      @click="isEditBirthdayShow= true" />
     </van-cell-group>
     <!-- 用户昵称 -->
     <van-popup
@@ -52,6 +54,25 @@
       @cancel="isEditGenderShow = false"
       @select="onGenderSelect"
     />
+    <!-- 更改用户生日 -->
+     <van-popup
+      v-model="isEditBirthdayShow"
+      position="bottom"
+    >
+      <!--
+        v-model="currentDate" 默认显示时间和同步用户选择的时间
+        :min-date="minDate" 最小可选日期
+        max-date  最大可选日期
+       -->
+      <van-datetime-picker
+        :value="currentDate"
+        type="date"
+        :min-date="minDate"
+        :max-date="maxDate"
+        @cancel="isEditBirthdayShow = false"
+        @confirm="onUpdateBirthday"
+      />
+     </van-popup>
   </div>
 </template>
 
@@ -61,6 +82,7 @@ import {
   updateUserPhoto,
   updateUserProfile } from '@/api/user'
 import { ImagePreview } from 'vant'
+import moment from 'moment'
 export default {
   name: 'user-profile',
   data () {
@@ -73,12 +95,18 @@ export default {
         // name 会显示出来，value 是我们自己添加的
         { name: '男', value: 1 },
         { name: '女', value: 0 }
-      ]
+      ],
+      isEditBirthdayShow: false,
+      minDate: new Date(1970, 0, 1),
+      maxDate: new Date()
     }
   },
   computed: {
     file () {
       return this.$refs['file']
+    },
+    currentDate () {
+      return new Date(this.user.birthday)
     }
   },
   created () {
@@ -101,6 +129,19 @@ export default {
       } catch (err) {
         this.$toast.fail('更新失败')
       }
+    },
+    // 更改生日
+    async onUpdateBirthday (value) {
+      // 使用moment转换日期格式
+      const date = moment(value).format('YYYY-MM-DD')
+      // 请求提交
+      await this.updateMessage('birthday', date)
+
+      // 更新视图
+      this.user.birthday = date
+      // 关闭弹层
+
+      this.isEditBirthdayShow = false
     },
     // 更改性别
     async onGenderSelect (data) {
