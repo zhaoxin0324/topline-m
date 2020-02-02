@@ -16,7 +16,9 @@
         :value="user.name"
         @click="isEditNameShow = true"/>
       <van-cell is-link title="介绍" value="内容" />
-      <van-cell is-link title="性别" :value="user.gender === 0? '男': '女'" />
+      <van-cell is-link title="性别"
+      :value="user.gender === 0? '女': '男'"
+      @click="isEditGenderShow= true"/>
       <van-cell is-link title="生日" :value="user.birthday" />
     </van-cell-group>
     <!-- 用户昵称 -->
@@ -42,6 +44,14 @@
         show-word-limit
       />
     </van-popup>
+    <!-- 更改用户性别 -->
+    <van-action-sheet
+      v-model="isEditGenderShow"
+      :actions="actions"
+      cancel-text="取消"
+      @cancel="isEditGenderShow = false"
+      @select="onGenderSelect"
+    />
   </div>
 </template>
 
@@ -57,7 +67,13 @@ export default {
     return {
       user: {},
       isEditNameShow: false, // 显示昵称弹层
-      inputName: '' // 输入的昵称
+      inputName: '', // 输入的昵称
+      isEditGenderShow: false, // 用户性别弹层
+      actions: [
+        // name 会显示出来，value 是我们自己添加的
+        { name: '男', value: 1 },
+        { name: '女', value: 0 }
+      ]
     }
   },
   computed: {
@@ -87,6 +103,14 @@ export default {
       }
     },
     // 更改性别
+    async onGenderSelect (data) {
+      // 请求提交
+      await this.updateMessage('gender', data.value)
+      // 更新视图展示
+      this.user.gender = data.value
+      // 关闭上拉菜单
+      this.isEditGenderShow = false
+    },
     // 更新昵称
     async onUpdateName () {
       // 请求数据
