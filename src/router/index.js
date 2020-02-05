@@ -28,6 +28,10 @@ const routes = [{
   path: '/user/profile',
   component: () => import('@/views/user-profile')
 }, {
+  path: '/user/chat',
+  name: 'user-chat',
+  component: () => import('@/views/user-chat')
+}, {
   path: '/user/:userId',
   name: 'user',
   component: () => import('@/views/user')
@@ -40,7 +44,21 @@ const routes = [{
   name: 'article',
   component: () => import ('@/views/articles'),
   props: true
-}]
+}, { // 我的作品
+  path: '/my-article', // /my-article /my-article/a /my-article/b
+  name: 'my-article',
+  component: () => import('@/views/user-articles'),
+  props: true
+}, { // 我的收藏
+  path: '/my-article/collect',
+  name: 'my-article-collect',
+  component: () => import('@/views/user-articles')
+}, { // 我的历史
+  path: '/my-article/history',
+  name: 'my-article-history',
+  component: () => import('@/views/user-articles')
+}
+]
 
 const router = new VueRouter({
   routes

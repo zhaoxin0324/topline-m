@@ -1,7 +1,9 @@
 <template>
   <div class="user-profile">
     <!-- 导航栏 -->
-    <van-nav-bar title="个人信息" left-arrow right-text="保存" @click-left="$router.back()"></van-nav-bar>
+    <van-nav-bar title="个人信息" left-arrow right-text="保存"
+    @click-left="$router.back()"
+    @click-right="$router.back()"></van-nav-bar>
     <!-- 单元格 用户信息-->
     <van-cell-group>
       <van-cell is-link title="头像" value="内容" @click="onSelectFile">
