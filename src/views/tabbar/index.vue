@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- 路由容器 -->
-        <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+
     <!-- 标签栏 -->
     <van-tabbar router v-model="active">
       <van-tabbar-item icon="wap-home-o" to="/">首页</van-tabbar-item>
@@ -14,6 +17,7 @@
 
 <script>
 export default {
+  name: 'TabBar',
   data () {
     return {
       active: 0

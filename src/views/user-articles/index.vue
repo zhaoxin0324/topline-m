@@ -4,7 +4,7 @@
     <van-nav-bar
       title="我的收藏/历史/作品"
       left-arrow
-      @click-left="$router.back()"
+      @click-left="$router.replace('/my')"
       fixed
     />
     <!-- /导航栏 -->
@@ -58,6 +58,15 @@ export default {
       } else {
         this.active = 2
       }
+    },
+    // 路由守卫 当路由跳转时执行
+    beforeRouteLeave (to, from, next) {
+      if (to.name === 'article') {
+        this.$store.commit('addCachePage', 'UserArticles')
+      } else {
+        this.$store.commit('removeCachePage', 'UserArticles')
+      }
+      next()
     }
   }
 }
